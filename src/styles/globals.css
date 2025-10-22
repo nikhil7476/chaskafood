@@ -1,13 +1,9 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;700&display=swap');
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+:root {
+  --background: #fffdf6 !important;
+  --foreground: #171717;
 }
 
 html,
@@ -18,8 +14,8 @@ body {
 
 body {
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background) !important;
+  font-family: azeret mono, monospace !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -35,8 +31,130 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+/* Header Styles */
+
+.header-container {
+  background-color: #0f411e;
+  color: #ffffff;
+  padding: 20px 60px !important;
+  border: 1px solid #0f411e;
+  border-radius: 10px;
+}
+
+.header-container .logo {
+  color: #fffdf6;
+  font-family: "Fraunces", serif;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.2em;
+}
+
+.header-container .logo:hover {
+  color: #fffdf6;
+}
+
+.header-container .menu a {
+  color: #ffffff;
+  font-family: azeret mono, monospace;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.2em;
+  padding: 0px 10px !important;
+}
+
+.header-container .menu a:hover,
+.header-container .menu a:focus,
+.header-container .menu a:active {
+  color: #e9f2d8 !important;
+}
+
+
+/* Footer Styles */
+.footer-container {
+  background-color: #0f411e;
+  color: #ffffff;
+  padding: 30px 60px !important;
+  border: 1px solid #0f411e;
+  border-radius: 10px;
+}
+
+.footer-container .footer-row-1 {
+  margin-bottom: 120px;
+}
+
+.footer-container .logo {
+  color: #fffdf6;
+  font-family: "Fraunces", serif;
+  font-size: 75px;
+  font-weight: 500;
+  line-height: 1.2em;
+  text-decoration: none;
+}
+
+.footer-container .logo:hover {
+  color: #fffdf6;
+}
+
+.footer-container ul li a {
+  color: #fffdf6;
+  font-family: azeret mono, monospace;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.2em;
+  text-decoration: none;
+}
+
+.footer-container .copy {
+  color: #fffdf6;
+  font-family: azeret mono, monospace;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5em;
+}
+
+/* Homepage Styles*/
+.banner-container {
+  background-image: url('/banner.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 60px !important;
+  border-radius: 10px;
+}
+
+.banner-container .banner-column {
+  background-color: #fffdf6;
+  padding: 40px;
+  border-radius: 10px;
+}
+
+.banner-container .banner-column h1 {
+  color: #0f411e;
+  font-family: "Fraunces", serif;
+  font-size: 60px;
+  font-weight: 500;
+  line-height: 1.2em;
+  letter-spacing: 1px;
+}
+
+.banner-container .banner-column p {
+  color: #0f411e;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5em;
+}
+
+.banner-container .banner-column a {
+  background-color: #fffba1;
+  color: #0f411e;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2em;
+  border: 1px solid #0f411e;
+  border-radius: 25px;
+  padding: 10px 30px;
+}
+
+.banner-container .banner-column a:hover {
+  background-color: #0f411e;
+  color: #fffdf6;
 }
