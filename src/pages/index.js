@@ -1,3 +1,4 @@
+import ContactForm from "@/components/ContactForm";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -28,6 +29,7 @@ function Home() {
           </Row>
         </Container>
       </section>
+
       <section id="about">
         <Container className="about-container mb-4 mx-auto">
           <Row>
@@ -38,6 +40,7 @@ function Home() {
           </Row>
         </Container>
       </section>
+
       <section>
         <Container className="mission-container mb-4 mx-auto">
           <Row className="align-items-stretch">
@@ -77,6 +80,35 @@ function Home() {
                 height={666}
                 className="w-100 h-100 object-fit-cover rounded-3"
               />
+            </Col>
+          </Row>
+        </Container>
+      </section>
+
+      <section>
+        <Container className="blog-container mb-4 mx-auto">
+          <Row>
+            <Col xl={6} lg={6} md={6} sm={12} xs={12}>
+              <span>Our Blog</span>
+              <h2>Some Healthy Tips</h2>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+      <section id="contact">
+        <Container className="contact-container mb-4 mx-auto">
+          <Row className="align-items-stretch">
+            <Col xl={6} lg={6} md={6} sm={12} xs={12} className="p-0">
+              <div className="contact-details h-100 d-flex flex-column justify-content-center me-4">
+                <span>Get In Touch</span>
+                <h2>Reach Out to Us Today</h2>
+                <p>We are here to answer any questions.</p>
+              </div>
+            </Col>
+            <Col xl={6} lg={6} md={6} sm={12} xs={12} className="p-0">
+              <div className="contact-form h-100 d-flex flex-column justify-content-center">
+                <ContactForm />
+              </div>
             </Col>
           </Row>
         </Container>
