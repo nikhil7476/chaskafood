@@ -79,7 +79,7 @@ function Footer() {
             <p className="copy text-end">
               &copy; {new Date().getFullYear()} By Chaska Food.
               <br />
-              Powered & Secured By MakersOfCode
+              Powered & Secured By Nikhil Mishra.
             </p>
           </Col>
         </Row>
