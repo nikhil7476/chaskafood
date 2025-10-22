@@ -31,6 +31,9 @@ a {
 }
 
 /* Header Styles */
+.header-navbar {
+  background-color: transparent;
+}
 
 .header-container {
   background-color: #0f411e;
@@ -46,6 +49,7 @@ a {
   font-size: 30px;
   font-weight: 500;
   line-height: 1.2em;
+  text-decoration: none;
 }
 
 .header-container .logo:hover {
@@ -54,11 +58,12 @@ a {
 
 .header-container .menu a {
   color: #ffffff;
-  font-family: azeret mono, monospace;
+  font-family: "Azeret Mono", monospace;
   font-size: 18px;
   font-weight: 500;
   line-height: 1.2em;
-  padding: 0px 10px !important;
+  padding: 0 10px !important;
+  text-decoration: none;
 }
 
 .header-container .menu a:hover,
@@ -95,7 +100,7 @@ a {
 
 .footer-container ul li a {
   color: #fffdf6;
-  font-family: azeret mono, monospace;
+  font-family: "Azeret Mono", monospace;
   font-size: 18px;
   font-weight: 500;
   line-height: 1.2em;
@@ -104,7 +109,7 @@ a {
 
 .footer-container .copy {
   color: #fffdf6;
-  font-family: azeret mono, monospace;
+  font-family: "Azeret Mono", monospace;
   font-size: 14px;
   font-weight: 500;
   line-height: 1.5em;
