@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import BlogCards from "@/components/BlogCards";
 
 function Home() {
   return (
@@ -95,6 +96,9 @@ function Home() {
           </Row>
         </Container>
       </section>
+
+      <BlogCards limit={3} />
+
       <section id="contact">
         <Container className="contact-container mb-4 mx-auto">
           <Row className="align-items-stretch">

@@ -3,6 +3,14 @@ const nextConfig = {
   /* config options here */
   reactCompiler: true,
   reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "therajwadasweets.com",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
