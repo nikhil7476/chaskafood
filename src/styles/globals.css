@@ -264,3 +264,38 @@ a {
   letter-spacing: 1px;
   margin-bottom: 30px;
 }
+
+.contact-container .contact-details span {
+  font-family: "Fraunces", serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.5em;
+  color: #0f411e;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.contact-container .contact-details p {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.5em;
+  color: #0f411e;
+}
+
+.contact-container .contact-form .subBtn {
+  background-color: #fffba1;
+  color: #0f411e;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2em;
+  border: 1px solid #0f411e;
+  border-radius: 25px;
+  padding: 10px 30px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.contact-container .contact-form .subBtn:hover {
+  background-color: #0f411e;
+  color: #fffdf6;
+}

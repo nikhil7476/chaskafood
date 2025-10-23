@@ -98,14 +98,14 @@ function Home() {
       <section id="contact">
         <Container className="contact-container mb-4 mx-auto">
           <Row className="align-items-stretch">
-            <Col xl={6} lg={6} md={6} sm={12} xs={12} className="p-0">
+            <Col xl={6} lg={6} md={6} sm={12} xs={12} className="p-0 mb-3">
               <div className="contact-details h-100 d-flex flex-column justify-content-center me-4">
                 <span>Get In Touch</span>
                 <h2>Reach Out to Us Today</h2>
                 <p>We are here to answer any questions.</p>
               </div>
             </Col>
-            <Col xl={6} lg={6} md={6} sm={12} xs={12} className="p-0">
+            <Col xl={6} lg={6} md={6} sm={12} xs={12} className="p-0 mb-3">
               <div className="contact-form h-100 d-flex flex-column justify-content-center">
                 <ContactForm />
               </div>
