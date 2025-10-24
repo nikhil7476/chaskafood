@@ -4,9 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import DOMPurify from "dompurify";
 import { useRouter } from "next/router";
-import axios from "axios";
+import axiosInstance from "../../../axios/axios";
 import { Container, Row, Col } from "react-bootstrap";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import Skeleton from "react-loading-skeleton";
 import { formatDate } from "@/utils/helper";
 import {
   BsWhatsapp,
@@ -16,7 +16,6 @@ import {
   BsShareFill,
   BsArrowUpRightCircleFill,
 } from "react-icons/bs";
-import { AiFillSetting } from "react-icons/ai";
 import { IoIosArrowForward } from "react-icons/io";
 import { SlCalender } from "react-icons/sl";
 import { MdMenuBook } from "react-icons/md";
@@ -25,156 +24,136 @@ const SingleBlog = ({ blog }) => {
   const [blogData, setBlogData] = useState(blog || {});
   const [loading, setLoading] = useState(!blog);
   const [readingTime, setReadingTime] = useState(0);
+  const [recentPosts, setRecentPosts] = useState([]);
   const router = useRouter();
-  const { isReady, query } = router;
 
+  // Load blog if SSR failed
   useEffect(() => {
-    if (isReady && blog) {
-      setBlogData(blog);
-      setLoading(false);
-      calculateReadingTime(blog?.description);
+    if (!blog && router.isReady) {
+      fetchBlog(router.query.id);
+    } else if (blog) {
+      calculateReadingTime(blog.description);
     }
-  }, [isReady, blog]);
+  }, [router.isReady, blog]);
+
+  const fetchBlog = async (slug) => {
+    try {
+      setLoading(true);
+      const res = await axiosInstance.get(`/getBlogBySlug/${slug}`);
+      const data = res?.data?.data;
+      if (res?.data?.status && data) {
+        const fetched = Array.isArray(data) && data.length ? data[0] : data;
+        setBlogData(fetched);
+        calculateReadingTime(fetched?.description);
+      }
+    } catch (err) {
+      console.error("Error fetching blog:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const calculateReadingTime = (content = "") => {
+    const words = content.trim().split(/\s+/).length || 0;
+    setReadingTime(Math.ceil(words / 150));
+  };
 
   const BlogContent = ({ content }) => {
-    const sanitizedContent =
-      typeof window !== "undefined"
-        ? DOMPurify.sanitize(content || "")
-        : content || "";
+    const sanitized =
+      typeof window !== "undefined" ? DOMPurify.sanitize(content) : content;
     return (
       <div
         className="blogDisc"
-        dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+        dangerouslySetInnerHTML={{ __html: sanitized }}
       />
     );
   };
 
-  const calculateReadingTime = (content) => {
-    const wordCount = content?.split(" ").length || 0;
-    const time = Math.ceil(wordCount / 150);
-    setReadingTime(time);
-  };
-
   const shareUrl = (platform) => {
-    const currentUrl = query?.id
-      ? `https://nextupgrad.us/blog/${query.id}`
-      : "https://nextupgrad.us/blog";
+    const currentUrl =
+      typeof window !== "undefined"
+        ? window.location.href
+        : `https://nextupgrad.us/blog/${router.query?.id}`;
     const title = encodeURIComponent(blogData?.title || "Blog");
-
-    switch (platform) {
-      case "whatsapp":
-        return `https://wa.me/?text=${title} - ${currentUrl}`;
-      case "linkedin":
-        return `https://www.linkedin.com/shareArticle?mini=true&url=${currentUrl}&title=${title}`;
-      case "pinterest":
-        return `https://pinterest.com/pin/create/button/?url=${currentUrl}&description=${title}`;
-      case "twitter":
-        return `https://twitter.com/intent/tweet?text=${title}&url=${currentUrl}`;
-      default:
-        return "#";
-    }
+    const urls = {
+      whatsapp: `https://wa.me/?text=${title} - ${currentUrl}`,
+      linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${currentUrl}&title=${title}`,
+      pinterest: `https://pinterest.com/pin/create/button/?url=${currentUrl}&description=${title}`,
+      twitter: `https://twitter.com/intent/tweet?text=${title}&url=${currentUrl}`,
+    };
+    return urls[platform] || "#";
   };
+
+  // Fetch recent posts
+  useEffect(() => {
+    const fetchRecentPosts = async () => {
+      try {
+        const res = await axiosInstance.get("/getBlog");
+        if (res?.data?.status) {
+          const allBlogs = Array.isArray(res.data.data) ? res.data.data : [];
+          const currentSlug = blogData?.slug || "";
+          const filtered = allBlogs
+            .filter((b) => b.slug !== currentSlug)
+            .sort(
+              (a, b) =>
+                new Date(b.updated_at || b.created_at) -
+                new Date(a.updated_at || a.created_at)
+            )
+            .slice(0, 5);
+          setRecentPosts(filtered);
+        }
+      } catch (err) {
+        console.error("Error fetching recent posts:", err);
+      }
+    };
+
+    fetchRecentPosts();
+  }, [blogData]);
 
   return (
     <>
       <Head>
-        <title>{blogData?.title}</title>
+        <title>{blogData?.title || "NextUpgrad Blog"}</title>
         <meta name="title" content={blogData?.title || "Nextupgrad"} />
         <meta
           name="description"
           content={
             blogData?.short_description?.substring(0, 160) ||
-            "Dive into our blog for insights into Web and Software."
-          }
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content={`https://nextupgrad.us/blog/${query?.id}`}
-        />
-        <meta property="og:title" content={blogData?.title || "Nextupgrad"} />
-        <meta
-          property="og:description"
-          content={
-            blogData?.short_description?.substring(0, 160) ||
-            "Expert insights into Web and Software."
-          }
-        />
-        <meta
-          property="og:image"
-          content={
-            blogData?.banner_image
-              ? process.env.NEXT_PUBLIC_IMAGE_URL + blogData?.banner_image
-              : "https://nextupgrad.us/assets/og-tag-image.webp"
-          }
-        />
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta
-          property="twitter:url"
-          content={`https://nextupgrad.us/blog/${query?.id}`}
-        />
-        <meta
-          property="twitter:title"
-          content={blogData?.title || "Nextupgrad"}
-        />
-        <meta
-          property="twitter:description"
-          content={
-            blogData?.short_description?.substring(0, 160) ||
-            "Expert insights into Web and Software."
-          }
-        />
-        <meta
-          property="twitter:image"
-          content={
-            blogData?.banner_image
-              ? process.env.NEXT_PUBLIC_IMAGE_URL + blogData?.banner_image
-              : "https://nextupgrad.us/logo-2orange-1.webp"
+            "Explore insights into Web and Software with NextUpgrad."
           }
         />
       </Head>
-      <div className="singleMain">
+
+      <div className="singleMain position-relative">
+        {/* Banner */}
         <section
-          className="singleBnr"
-          style={{ backgroundColor: `${blogData?.color_code || "#142330"}` }}
+          className="singleBnr py-5"
+          style={{ backgroundColor: blogData?.color_code || "#142330" }}
         >
           <Container>
             {loading ? (
-              <Row className="mb-4 justify-content-center">
-                <Col lg={8} md={8} sm={12} xs={12}>
-                  <SkeletonTheme color="#2c2c2c" highlightColor="#444">
-                    <Skeleton count={5} />
-                  </SkeletonTheme>
-                </Col>
-              </Row>
+              <Skeleton count={6} />
             ) : (
-              <Row className="justify-content-between singleBlg">
-                <Col
-                  lg={6}
-                  md={6}
-                  sm={12}
-                  xs={12}
-                  className="align-content-center"
-                >
-                  <h1>{blogData?.title}</h1>
-                  <div>
-                    <Link className="ctaBtn text-white" href="/blog">
-                      Blogs
+              <Row className="align-items-center text-white gy-4">
+                <Col lg={6} md={7}>
+                  <h1 className="fw-bold mb-3">{blogData?.title}</h1>
+                  <div className="d-flex align-items-center gap-2">
+                    <Link href="/blog" legacyBehavior>
+                      <a className="text-white text-decoration-none">Blogs</a>
                     </Link>
                     <IoIosArrowForward />
-                    <Link className="ctaBtn text-white" href="#">
-                      This Article
-                    </Link>
+                    <span>This Article</span>
                   </div>
                 </Col>
-                <Col lg={5} md={5} sm={12} xs={12}>
+                <Col lg={5} md={5} className="text-center text-md-end">
                   {blogData?.banner_image && (
                     <Image
                       src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${blogData.banner_image}`}
                       alt={blogData?.title || "Blog Banner"}
-                      title={blogData?.title || "Blog Banner"}
-                      width={496}
-                      height={298}
+                      width={500}
+                      height={300}
+                      className="img-fluid rounded shadow"
+                      unoptimized
                     />
                   )}
                 </Col>
@@ -182,146 +161,167 @@ const SingleBlog = ({ blog }) => {
             )}
           </Container>
         </section>
-        <section className="singleCont">
+
+        {/* Content */}
+        <section className="singleCont py-5 position-relative">
           <Container>
-            {loading ? (
-              <Row className="mb-4 justify-content-center">
-                <Col lg={8} md={8} sm={12} xs={12}>
-                  <SkeletonTheme color="#2c2c2c" highlightColor="#444">
-                    <Skeleton count={5} />
-                  </SkeletonTheme>
-                </Col>
-              </Row>
-            ) : (
-              <Row className="mb-4 justify-content-center">
-                <Col lg={8} md={8} sm={12} xs={12}>
-                  <div className="descBlg">
-                    <BlogContent content={blogData?.description} />
-                  </div>
-                </Col>
-              </Row>
-            )}
-            <Row className="justify-content-center">
-              <Col lg={8} md={8} sm={12} xs={12}>
-                <div className="authorMeta">
-                  <div className="authorImg">
-                    <Image
-                      src={
-                        blogData?.author_image
-                          ? process.env.NEXT_PUBLIC_IMAGE_URL +
-                            blogData.author_image
-                          : "/assets/author.webp"
-                      }
-                      alt={blogData?.author || "Author"}
-                      title={blogData?.author || "Author"}
-                      width={100}
-                      height={100}
-                    />
-                    <p className="mt-2 mb-0">{blogData?.author}</p>
-                    {blogData?.author_handle && (
-                      <Link
-                        href={blogData.author_handle}
-                        target="_blank"
-                        style={{ textTransform: "lowercase", color: "#e76f51" }}
-                      >
-                        <span>@</span>
-                        {blogData?.author}
+            <Row className="justify-content-between">
+              {/* Blog */}
+              <Col lg={8} md={10}>
+                {loading ? (
+                  <Skeleton count={10} />
+                ) : (
+                  <>
+                    <div className="descBlg mb-5">
+                      <BlogContent content={blogData?.description} />
+                    </div>
+
+                    {/* Author */}
+                    <div className="text-center border-top pt-4">
+                      <Image
+                        src={
+                          blogData?.author_image
+                            ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${blogData.author_image}`
+                            : "/author.webp"
+                        }
+                        alt={blogData?.author || "Author"}
+                        width={100}
+                        height={100}
+                        className="rounded-circle mb-3"
+                        unoptimized
+                      />
+                      <h5 className="mb-1">{blogData?.author}</h5>
+                      <p className="text-muted mb-3">
+                        {blogData?.author_bio ||
+                          "This is the author of this blog."}
+                      </p>
+                      <ul className="list-inline text-secondary mb-0">
+                        <li className="list-inline-item me-3">
+                          <SlCalender />{" "}
+                          {blogData?.updated_at
+                            ? formatDate(blogData?.updated_at)
+                            : ""}
+                        </li>
+                        <li className="list-inline-item">
+                          <MdMenuBook /> {readingTime} min read
+                        </li>
+                      </ul>
+                    </div>
+                  </>
+                )}
+              </Col>
+
+              {/* Sidebar */}
+              <Col lg={3} className="d-none d-lg-block">
+                <div
+                  className="p-3 bg-white rounded-3 shadow-sm border"
+                  style={{
+                    position: "sticky",
+                    top: "130px",
+                    width: "260px",
+                    zIndex: 10,
+                  }}
+                >
+                  {/* Share */}
+                  <div className="mb-4">
+                    <div className="fw-semibold mb-2 text-dark">
+                      <BsShareFill /> Share
+                    </div>
+                    <div className="d-flex gap-3">
+                      <Link href={shareUrl("whatsapp")} target="_blank">
+                        <BsWhatsapp size={20} className="text-success" />
                       </Link>
+                      <Link href={shareUrl("linkedin")} target="_blank">
+                        <BsLinkedin size={20} className="text-primary" />
+                      </Link>
+                      <Link href={shareUrl("pinterest")} target="_blank">
+                        <BsPinterest size={20} className="text-danger" />
+                      </Link>
+                      <Link href={shareUrl("twitter")} target="_blank">
+                        <BsTwitter size={20} className="text-info" />
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Category */}
+                  <div className="border-top pt-3">
+                    <h6 className="fw-semibold mb-3">Category</h6>
+                    {blogData?.catogary ? (
+                      <p className="text-dark text-decoration-none small">
+                        {blogData.catogary}
+                      </p>
+                    ) : (
+                      <div className="small text-muted">Uncategorized</div>
                     )}
                   </div>
-                  <div className="authorCont">
-                    <p>
-                      {blogData?.author_bio ||
-                        "This is the Author of this blog."}
-                    </p>
-                    <ul>
-                      <li>
-                        <SlCalender />{" "}
-                        {blogData?.updated_at
-                          ? formatDate(blogData?.updated_at)
-                          : ""}
-                      </li>
-                      <li>
-                        <MdMenuBook /> {readingTime} min read
-                      </li>
-                    </ul>
+
+                  {/* Recent Posts */}
+                  <div className="border-top pt-3 mt-3">
+                    <h6 className="fw-semibold mb-3">Recent Posts</h6>
+                    {recentPosts.length === 0 && (
+                      <div className="small text-muted">No recent posts</div>
+                    )}
+                    {recentPosts.map((post) => (
+                      <div
+                        key={post._id}
+                        className="d-flex align-items-center gap-2 mb-3"
+                      >
+                        <Image
+                          src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${post.banner_image}`}
+                          alt={post.title}
+                          width={60}
+                          height={45}
+                          className="rounded object-fit-cover"
+                          unoptimized
+                        />
+                        <Link
+                          href={`/blog/${post.slug}`}
+                          title={post.title}
+                          className="text-dark small text-decoration-none"
+                          target="_blank"
+                        >
+                          {post.title.length > 60
+                            ? post.title.slice(0, 60) + "..."
+                            : post.title}
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Contact */}
+                  <div className="border-top pt-3 mt-3">
+                    <Link
+                      href="/#contact"
+                      className="d-flex align-items-center gap-2 text-dark text-decoration-none small"
+                    >
+                      <BsArrowUpRightCircleFill size={18} />
+                      Have an idea?
+                    </Link>
                   </div>
                 </div>
               </Col>
             </Row>
           </Container>
-          <div className="sdeMain">
-            <ul>
-              <li>
-                <div className="sdeOne">
-                  <Link href="/seo-services" target="_blank">
-                    <AiFillSetting />
-                    <p className="m-0">View Our Services</p>
-                  </Link>
-                </div>
-              </li>
-              <li>
-                <div className="sdeTwo">
-                  <Link href="/contact-us" target="_blank">
-                    <BsArrowUpRightCircleFill />
-                    <p className="m-0">
-                      Have an Idea Request
-                      <br />A Quote
-                    </p>
-                  </Link>
-                </div>
-              </li>
-              <li>
-                <div className="sdeThree">
-                  <BsShareFill />
-                  <p className="m-0">Share this blog</p>
-                </div>
-                <div className="socioLnk">
-                  <Link href={shareUrl("whatsapp")} target="_blank">
-                    <BsWhatsapp />
-                  </Link>
-                  <Link href={shareUrl("linkedin")} target="_blank">
-                    <BsLinkedin />
-                  </Link>
-                  <Link href={shareUrl("pinterest")} target="_blank">
-                    <BsPinterest />
-                  </Link>
-                  <Link href={shareUrl("twitter")} target="_blank">
-                    <BsTwitter />
-                  </Link>
-                </div>
-              </li>
-            </ul>
-          </div>
         </section>
       </div>
     </>
   );
 };
 
+// SSR
 export async function getServerSideProps(context) {
   const { id } = context.query;
   let blog = null;
-
   try {
-    const blogRes = await axios.get(
-      process.env.NEXT_PUBLIC_SITE_URL + `/getBlogBySlug/${id}`
-    );
-
-    console.log("blogRes.data.data[0]", blogRes.data.data[0]);
-
-    if (blogRes?.data?.status) {
-      blog = blogRes.data.data[0];
+    const res = await axiosInstance.get(`/getBlogBySlug/${id}`);
+    const data = res?.data?.data;
+    if (res?.data?.status && data) {
+      blog = Array.isArray(data) && data.length ? data[0] : data;
     }
   } catch (err) {
-    console.error("Error fetching data:", err);
+    console.error("SSR fetch error:", err);
   }
-
-  return {
-    props: {
-      blog,
-    },
-  };
+  return { props: { blog } };
 }
 
 export default SingleBlog;
