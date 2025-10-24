@@ -138,8 +138,15 @@ const SingleBlog = ({ blog }) => {
                 <Col lg={6} md={7}>
                   <h1 className="fw-bold mb-3">{blogData?.title}</h1>
                   <div className="d-flex align-items-center gap-2">
-                    <Link href="/blog" legacyBehavior>
-                      <a className="text-white text-decoration-none">Blogs</a>
+                    <Link href="/" className="text-white text-decoration-none">
+                      Home
+                    </Link>
+                    <IoIosArrowForward />
+                    <Link
+                      href="/blog"
+                      className="text-white text-decoration-none"
+                    >
+                      Blogs
                     </Link>
                     <IoIosArrowForward />
                     <span>This Article</span>
