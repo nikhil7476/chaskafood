@@ -27,7 +27,6 @@ const SingleBlog = ({ blog }) => {
   const [recentPosts, setRecentPosts] = useState([]);
   const router = useRouter();
 
-  // Load blog if SSR failed
   useEffect(() => {
     if (!blog && router.isReady) {
       fetchBlog(router.query.id);
@@ -84,7 +83,6 @@ const SingleBlog = ({ blog }) => {
     return urls[platform] || "#";
   };
 
-  // Fetch recent posts
   useEffect(() => {
     const fetchRecentPosts = async () => {
       try {
@@ -124,11 +122,11 @@ const SingleBlog = ({ blog }) => {
         />
       </Head>
 
-      <div className="singleMain position-relative">
+      <div className="singleMain">
         {/* Banner */}
         <section
           className="singleBnr py-5"
-          style={{ backgroundColor: blogData?.color_code || "#142330" }}
+          style={{ backgroundColor: blogData?.color_code || "inherit" }}
         >
           <Container>
             {loading ? (
@@ -137,14 +135,14 @@ const SingleBlog = ({ blog }) => {
               <Row className="align-items-center text-white gy-4">
                 <Col lg={6} md={7}>
                   <h1 className="fw-bold mb-3">{blogData?.title}</h1>
-                  <div className="d-flex align-items-center gap-2">
-                    <Link href="/" className="text-white text-decoration-none">
+                  <div className="d-flex align-items-center gap-2 breadcrumb">
+                    <Link href="/" className="text-light text-decoration-none">
                       Home
                     </Link>
                     <IoIosArrowForward />
                     <Link
                       href="/blog"
-                      className="text-white text-decoration-none"
+                      className="text-light text-decoration-none"
                     >
                       Blogs
                     </Link>
@@ -170,7 +168,7 @@ const SingleBlog = ({ blog }) => {
         </section>
 
         {/* Content */}
-        <section className="singleCont py-5 position-relative">
+        <section className="singleCont py-5">
           <Container>
             <Row className="justify-content-between">
               {/* Blog */}
@@ -220,18 +218,10 @@ const SingleBlog = ({ blog }) => {
 
               {/* Sidebar */}
               <Col lg={3} className="d-none d-lg-block">
-                <div
-                  className="p-3 bg-white rounded-3 shadow-sm border"
-                  style={{
-                    position: "sticky",
-                    top: "130px",
-                    width: "260px",
-                    zIndex: 10,
-                  }}
-                >
+                <div className="blogSidebar p-3 rounded shadow-sm border">
                   {/* Share */}
                   <div className="mb-4">
-                    <div className="fw-semibold mb-2 text-dark">
+                    <div className="fw-semibold mb-2">
                       <BsShareFill /> Share
                     </div>
                     <div className="d-flex gap-3">
@@ -254,9 +244,7 @@ const SingleBlog = ({ blog }) => {
                   <div className="border-top pt-3">
                     <h6 className="fw-semibold mb-3">Category</h6>
                     {blogData?.catogary ? (
-                      <p className="text-dark text-decoration-none small">
-                        {blogData.catogary}
-                      </p>
+                      <p className="small text-dark">{blogData.catogary}</p>
                     ) : (
                       <div className="small text-muted">Uncategorized</div>
                     )}

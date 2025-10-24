@@ -5,16 +5,10 @@ import { Col, Container, Row } from "react-bootstrap";
 function Footer() {
   return (
     <section>
-      <Container className="m-4 mx-auto footer-container">
-        <Row className="justify-content-between footer-row-1">
-          <Col
-            xl={6}
-            lg={6}
-            md={6}
-            sm={12}
-            xs={12}
-            className="mb-3 align-items-start d-flex"
-          >
+      <Container className="footer-container mb-4 mx-auto">
+        {/* Top Row: Logo + Links */}
+        <Row className="justify-content-between align-items-start mb-4">
+          <Col xl={6} lg={6} md={6} sm={12} className="mb-3">
             <Link
               href="/"
               title="Chaska Food"
@@ -28,10 +22,9 @@ function Footer() {
             lg={5}
             md={6}
             sm={12}
-            xs={12}
-            className="mb-3 align-items-end d-flex justify-content-end"
+            className="mb-3 d-flex justify-content-end"
           >
-            <ul className="list-unstyled text-end">
+            <ul className="list-unstyled text-end mb-0">
               <li>
                 <Link href="#" title="Privacy Policy">
                   Privacy Policy
@@ -45,16 +38,11 @@ function Footer() {
             </ul>
           </Col>
         </Row>
-        <Row className="justify-content-between footer-row-2">
-          <Col
-            xl={6}
-            lg={6}
-            md={6}
-            sm={12}
-            xs={12}
-            className="mb-3 align-items-start d-flex"
-          >
-            <ul className="list-unstyled">
+
+        {/* Bottom Row: Contact Info + Copyright */}
+        <Row className="justify-content-between align-items-start">
+          <Col xl={6} lg={6} md={6} sm={12} className="mb-3">
+            <ul className="list-unstyled mb-0">
               <li>
                 <Link href="tel:123-456-7890" title="Call Us">
                   123-456-7890
@@ -77,10 +65,9 @@ function Footer() {
             lg={5}
             md={6}
             sm={12}
-            xs={12}
-            className="mb-3 align-items-end d-flex justify-content-end"
+            className="mb-3 d-flex justify-content-end"
           >
-            <p className="copy text-end">
+            <p className="copy text-end mb-0">
               &copy; {new Date().getFullYear()} By Chaska Food.
               <br />
               Powered & Secured By Nikhil Mishra.

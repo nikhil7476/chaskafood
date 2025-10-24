@@ -32,14 +32,15 @@ function ContactForm() {
   };
 
   return (
-    <Container className="my-5">
+    <Container className="contact-container my-5">
       {error && <Alert variant="danger">{error}</Alert>}
       {submitted && (
         <Alert variant="success">Form submitted successfully!</Alert>
       )}
+
       <Form onSubmit={handleSubmit}>
         <Row className="mb-3">
-          <Col md={6}>
+          <Col md={6} xs={12}>
             <Form.Group controlId="firstName">
               <Form.Label>First Name</Form.Label>
               <Form.Control
@@ -51,7 +52,7 @@ function ContactForm() {
               />
             </Form.Group>
           </Col>
-          <Col md={6}>
+          <Col md={6} xs={12}>
             <Form.Group controlId="lastName">
               <Form.Label>Last Name</Form.Label>
               <Form.Control
@@ -88,7 +89,7 @@ function ContactForm() {
           />
         </Form.Group>
 
-        <Button variant="primary" type="submit" className="subBtn">
+        <Button type="submit" className="subBtn">
           Submit
         </Button>
       </Form>

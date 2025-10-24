@@ -35,7 +35,7 @@ const BlogCards = () => {
 
   const stripHtml = (html) => {
     if (!html) return "";
-    let doc = new DOMParser().parseFromString(html, "text/html");
+    const doc = new DOMParser().parseFromString(html, "text/html");
     return doc.body.textContent || "";
   };
 
@@ -55,25 +55,17 @@ const BlogCards = () => {
   return (
     <section>
       <Container className="blog-card-container mb-4 mx-auto">
-        <Row>
+        <Row className="g-4">
           {loading ? (
             <SkeletonTheme color="#2c2c2c" highlightColor="#444">
               {[...Array(3)].map((_, i) => (
-                <Col
-                  key={i}
-                  xl={4}
-                  lg={4}
-                  md={4}
-                  sm={12}
-                  xs={12}
-                  className="mb-3"
-                >
-                  <div>
+                <Col key={i} xl={4} lg={4} md={6} sm={12}>
+                  <div className="blog-card">
                     <Skeleton
                       height={211}
-                      style={{ borderRadius: "8px 8px 0 0" }}
+                      style={{ borderRadius: "10px 10px 0 0" }}
                     />
-                    <div>
+                    <div className="p-3">
                       <Skeleton width="50%" height={20} className="mb-2" />
                       <Skeleton width="90%" height={24} className="mb-2" />
                       <Skeleton width="100%" height={16} count={2} />
@@ -84,16 +76,8 @@ const BlogCards = () => {
             </SkeletonTheme>
           ) : blogs.length > 0 ? (
             blogs.map((item, index) => (
-              <Col
-                key={index}
-                xl={4}
-                lg={4}
-                md={4}
-                sm={12}
-                xs={12}
-                className="mb-3"
-              >
-                <div className="blog-card">
+              <Col key={index} xl={4} lg={4} md={6} sm={12}>
+                <div className="blog-card h-100">
                   <Link href={`/blog/${item.slug}`} target="_blank">
                     <div className="blog-image">
                       <Image
@@ -106,10 +90,10 @@ const BlogCards = () => {
                     </div>
                   </Link>
                   <div className="blog-content">
-                    <span className="category">
+                    <span className="category mb-2 d-block">
                       <BiSolidCategory /> {item.catogary}
                     </span>
-                    <h3 className="title">
+                    <h3 className="title mb-2">
                       <Link
                         href={`/blog/${item.slug}`}
                         target="_blank"
@@ -118,7 +102,7 @@ const BlogCards = () => {
                         {truncateText(item.title, 20)}
                       </Link>
                     </h3>
-                    <div className="author">
+                    <div className="author d-flex justify-content-between mb-2">
                       <span>
                         <FaUser /> {item.author}
                       </span>
@@ -137,8 +121,10 @@ const BlogCards = () => {
             </Col>
           )}
         </Row>
-        <Row>
-          <Col className="text-center mb-3">
+
+        {/* Explore Blog Button */}
+        <Row className="mt-4">
+          <Col className="text-center">
             <Link
               href="/blog"
               title="Explore Our Blog"

@@ -8,29 +8,27 @@ import BlogCards from "@/components/BlogCards";
 function Home() {
   return (
     <>
+      {/* Banner Section */}
       <section>
         <Container className="banner-container mb-4 mx-auto">
           <Row>
             <Col xl={6} lg={6} md={6} sm={12} xs={12} className="banner-column">
-              <div>
-                <h1>Fuel Your Health with Nutrition</h1>
-              </div>
-              <div>
-                <p>
-                  Discover a world of wholesome, delicious, and nutrient-rich
-                  foods crafted to nourish your body and delight your taste
-                  buds. Elevate your wellness journey with flavors that are as
-                  good for you as they are satisfying.
-                </p>
-                <Link href="/blog" title="Our Blog">
-                  Our Blog
-                </Link>
-              </div>
+              <h1>Fuel Your Health with Nutrition</h1>
+              <p>
+                Discover a world of wholesome, delicious, and nutrient-rich
+                foods crafted to nourish your body and delight your taste buds.
+                Elevate your wellness journey with flavors that are as good for
+                you as they are satisfying.
+              </p>
+              <Link href="/blog" title="Our Blog" className="banner-link">
+                Our Blog
+              </Link>
             </Col>
           </Row>
         </Container>
       </section>
 
+      {/* About Section */}
       <section id="about">
         <Container className="about-container mb-4 mx-auto">
           <Row>
@@ -42,6 +40,7 @@ function Home() {
         </Container>
       </section>
 
+      {/* Mission & Values Section */}
       <section>
         <Container className="mission-container mb-4 mx-auto">
           <Row className="align-items-stretch">
@@ -72,20 +71,22 @@ function Home() {
                 </p>
               </div>
             </Col>
-            <Col xl={6} lg={6} md={6} sm={12} xs={12} className="p-0 d-flex">
+            <Col xl={6} lg={6} md={6} sm={12} xs={12} className="p-0">
               <Image
                 src="/about.png"
                 alt="About"
                 title="About"
                 width={500}
                 height={666}
-                className="w-100 h-100 object-fit-cover rounded-3"
+                className="w-100 h-100 rounded-3"
+                style={{ objectFit: "cover" }}
               />
             </Col>
           </Row>
         </Container>
       </section>
 
+      {/* Blog Section */}
       <section id="blog">
         <Container className="blog-container mb-4 mx-auto">
           <Row>
@@ -97,19 +98,20 @@ function Home() {
         </Container>
       </section>
 
-      <BlogCards limit={3} />
+      <BlogCards />
 
+      {/* Contact Section */}
       <section id="contact">
         <Container className="contact-container mb-4 mx-auto">
-          <Row className="align-items-stretch">
-            <Col xl={6} lg={6} md={6} sm={12} xs={12} className="p-0 mb-3">
-              <div className="contact-details h-100 d-flex flex-column justify-content-center me-4">
+          <Row className="align-items-stretch g-4">
+            <Col xl={6} lg={6} md={6} sm={12} xs={12}>
+              <div className="contact-details h-100 d-flex flex-column justify-content-center">
                 <span>Get In Touch</span>
                 <h2>Reach Out to Us Today</h2>
                 <p>We are here to answer any questions.</p>
               </div>
             </Col>
-            <Col xl={6} lg={6} md={6} sm={12} xs={12} className="p-0 mb-3">
+            <Col xl={6} lg={6} md={6} sm={12} xs={12}>
               <div className="contact-form h-100 d-flex flex-column justify-content-center">
                 <ContactForm />
               </div>

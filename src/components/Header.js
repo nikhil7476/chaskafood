@@ -2,12 +2,22 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 
 function Header() {
   return (
-    <Navbar collapseOnSelect expand="lg" className="header-navbar">
-      <Container className="header-container my-3 mx-auto">
-        <Navbar.Brand href="/" title="Chaska Food" className="logo">
+    <Navbar
+      collapseOnSelect
+      expand="lg"
+      variant="dark"
+      className="header-navbar py-3"
+    >
+      <Container className="header-container px-4">
+        {/* Logo / Brand */}
+        <Navbar.Brand href="/" className="logo">
           Chaska Food
         </Navbar.Brand>
+
+        {/* Mobile Toggle */}
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+
+        {/* Navbar Links */}
         <Navbar.Collapse
           id="responsive-navbar-nav"
           className="justify-content-end"

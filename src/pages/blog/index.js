@@ -42,7 +42,7 @@ const Blog = () => {
       filteredBlogs = filteredBlogs.filter(
         (item) =>
           item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.description.toLowerCase().includes(searchQuery.toLowerCase()) // Added description search
+          item.description.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
@@ -54,6 +54,7 @@ const Blog = () => {
 
     setBlogs(filteredBlogs);
   }, [searchQuery, selectedCategory, blogsBackup]);
+
   const getBlogs = async () => {
     setLoading(true);
     try {
@@ -81,54 +82,22 @@ const Blog = () => {
     setSelectedCategory(category === selectedCategory ? "" : category);
   };
 
-  const cardStyle = {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    overflow: "hidden",
-  };
-  const cardContentStyle = {
-    flexGrow: 1,
-    padding: "15px 0 0",
-    display: "flex",
-    flexDirection: "column",
-  };
-  const excerptStyle = {
-    marginTop: "auto",
-    lineHeight: "1.4",
-  };
-  const searchInputStyle = {
-    width: "100%",
-    padding: "10px",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
-    outline: "none",
-  };
-
   const renderBlogCards = () => {
     if (loading) {
       return (
         <SkeletonTheme color="#2c2c2c" highlightColor="#444">
           {[...Array(4)].map((_, i) => (
             <Col key={i} className="mb-4" lg={6} md={12} sm={12} xs={12}>
-              <div style={{ ...cardStyle, border: "none" }}>
+              <div className="blgCard skeleton-card">
                 <Skeleton
                   height={211}
-                  style={{ borderRadius: "5px 5px 0 0" }}
+                  style={{ borderRadius: "10px 10px 0 0" }}
                 />
-                <div style={cardContentStyle}>
-                  <Skeleton width="40%" height={16} className="mb-2" />
+                <div className="blgContent">
+                  <Skeleton width="50%" height={16} className="mb-2" />
                   <Skeleton height={24} className="mb-2" count={2} />
-                  <div
-                    className="blgMeta"
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Skeleton width="30%" height={14} />
-                    <Skeleton width="30%" height={14} />
-                  </div>
+                  <Skeleton width="30%" height={14} className="mb-2" inline />
+                  <Skeleton width="30%" height={14} className="mb-2" inline />
                   <Skeleton count={2} className="mt-2" />
                 </div>
               </div>
@@ -151,39 +120,31 @@ const Blog = () => {
 
     return blogs.map((item, index) => (
       <Col key={index} className="mb-4 d-flex" lg={6} md={12} sm={12} xs={12}>
-        <div className="blgCard" style={cardStyle}>
-          <Link
-            href={`/blog/${item?.slug}`}
-            target="_blank"
-            style={{ display: "block" }}
-          >
-            <div
-              className="blgFeat"
-              style={{ height: "211px", overflow: "hidden" }}
-            >
+        <div className="blgCard">
+          <Link href={`/blog/${item?.slug}`} target="_blank">
+            <div className="blgFeat">
               <Image
                 src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${item?.banner_image}`}
                 alt={item?.title || "Blog Post Image"}
                 width={351}
                 height={211}
-                className="w-100 h-100 object-fit-cover rounded-top"
+                className="w-100 h-100 rounded-top object-fit-cover"
               />
             </div>
           </Link>
-          <div style={cardContentStyle}>
-            <h3 style={{ fontSize: "1.25rem", lineHeight: "1.4" }}>
-              <span className="cat text-muted small d-block mb-1">
+          <div className="blgContent">
+            <h3 className="blgTitle">
+              <span className="cat d-block mb-1 text-muted small">
                 <BiSolidCategory className="me-1" /> {item?.catogary}
               </span>
               <Link
                 href={`/blog/${item?.slug}`}
                 target="_blank"
-                className="text-decoration-none"
+                className="text-decoration-none text-dark"
               >
                 {item.title}
               </Link>
             </h3>
-
             <div className="blgMeta d-flex justify-content-between text-muted small mb-2">
               <p className="mb-0">
                 <FaUser className="me-1" /> {item.author}
@@ -192,8 +153,7 @@ const Blog = () => {
                 <SlCalender className="me-1" /> {formatDate(item.updated_at)}
               </p>
             </div>
-
-            <p style={excerptStyle} className="text-secondary">
+            <p className="blgExcerpt">
               {truncateWords(stripHtml(item.description), 20)}
             </p>
           </div>
@@ -208,34 +168,16 @@ const Blog = () => {
         <title>
           NextUpgrad USA Blog | Insights on Tech, Business & Innovation
         </title>
-        <meta
-          name="title"
-          content="NextUpgrad USA Blog | Insights on Tech, Business & Innovation"
-        />
-        <meta
-          name="description"
-          content="Stay updated with NextUpgrad USA's blog! Explore expert insights on technology, business, and innovation to stay ahead in the digital world."
-        />
-        <meta
-          property="og:title"
-          content="NextUpgrad USA Blog | Insights on Tech, Business & Innovation"
-        />
-        <meta
-          property="og:description"
-          content="Stay updated with NextUpgrad USA's blog! Explore expert insights on technology, business, and innovation to stay ahead in the digital world."
-        />
-        <meta
-          property="og:image"
-          content="https://nextupgrad.us/assets/og-tag-image.webp"
-        />
       </Head>
+
       <div className="blgMain">
+        {/* Banner */}
         <section className="blgBnr py-5">
           <Container>
             <Row>
               <Col>
-                <h1 className="text-center">
-                  <span className="d-block display-4 fw-bold">Blogs</span>
+                <h1 className="text-center display-4 fw-bold">
+                  Blogs
                   <span className="d-block h4 fw-light mt-2">
                     Your Gateway to Knowledge, Tips, and Inspiration
                   </span>
@@ -245,35 +187,32 @@ const Blog = () => {
           </Container>
         </section>
 
+        {/* Blog Content */}
         <section className="blgCont py-5">
-          <Container
-            data-aos="fade-up"
-            data-aos-delay="150"
-            data-aos-duration="1500"
-          >
+          <Container>
             <Row className="blgContainer">
               <Col lg={8} md={8} sm={12} xs={12}>
-                <Row className="blgCards d-flex align-items-stretch">
-                  {" "}
-                  {renderBlogCards()}
-                </Row>
+                <Row className="blgCards">{renderBlogCards()}</Row>
               </Col>
 
               <Col lg={4} md={4} sm={12} xs={12} className="mt-4 mt-md-0">
                 <div
-                  className="blgSearch p-3 border rounded shadow-sm sticky-top"
+                  className="blgSearch p-3 rounded shadow-sm sticky-top"
                   style={{ top: "20px" }}
                 >
+                  {/* Search */}
                   <div className="mb-4">
                     <h3 className="h5 fw-bold mb-3">Search Articles</h3>
                     <input
                       type="text"
                       placeholder="Search by title or content..."
-                      style={searchInputStyle}
+                      className="blgSearchInput"
                       onChange={(e) => setSearchQuery(e.target.value)}
                       value={searchQuery}
                     />
                   </div>
+
+                  {/* Categories */}
                   <div className="mb-4">
                     <h3 className="h5 fw-bold mb-3">Categories:</h3>
                     <ul className="list-unstyled categories d-flex flex-wrap gap-2">
@@ -304,6 +243,7 @@ const Blog = () => {
                     </ul>
                   </div>
 
+                  {/* Recent Blogs */}
                   <div>
                     <h3 className="h5 fw-bold mb-3">Recent Blogs</h3>
                     {blogsBackup.length ? (
