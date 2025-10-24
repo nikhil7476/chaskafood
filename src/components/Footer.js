@@ -15,7 +15,11 @@ function Footer() {
             xs={12}
             className="mb-3 align-items-start d-flex"
           >
-            <Link href="/" title="Chaska Food" className="logo">
+            <Link
+              href="/"
+              title="Chaska Food"
+              className="logo text-decoration-none"
+            >
               Chaska Food
             </Link>
           </Col>

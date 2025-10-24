@@ -1,11 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;700&display=swap");
 
+/* Root Variables */
 :root {
   --background: #fffdf6;
   --foreground: #171717;
 }
 
+/* Global Styles */
 html,
 body {
   max-width: 100vw;
@@ -64,7 +66,6 @@ a {
   font-weight: 500;
   line-height: 1.2em;
   padding: 0 10px !important;
-  text-decoration: none;
 }
 
 .header-container .menu a:hover,
@@ -92,7 +93,6 @@ a {
   font-size: 75px;
   font-weight: 500;
   line-height: 1.2em;
-  text-decoration: none;
 }
 
 .footer-container .logo:hover {
@@ -105,7 +105,6 @@ a {
   font-size: 18px;
   font-weight: 500;
   line-height: 1.2em;
-  text-decoration: none;
 }
 
 .footer-container .copy {
@@ -116,7 +115,7 @@ a {
   line-height: 1.5em;
 }
 
-/* Homepage Styles */
+/* Banner / Homepage Styles */
 .banner-container {
   background-image: url("/banner.jpg");
   background-size: cover;
@@ -157,8 +156,8 @@ a {
   border: 1px solid #0f411e;
   border-radius: 25px;
   padding: 10px 30px;
-  text-decoration: none;
   display: inline-block;
+  text-decoration: none;
 }
 
 .banner-container .banner-column a:hover {
@@ -193,7 +192,7 @@ a {
   margin: 0;
 }
 
-/* Mission & Value Styles */
+/* Mission & Values */
 .mission-container .mission,
 .mission-container .values {
   background-color: #eaf1d8;
@@ -246,7 +245,7 @@ a {
   margin: 0;
 }
 
-/*Blog Card Styles*/
+/* Blog Card */
 .blog-card-container .blog-card {
   background-color: #eaf1d8;
   border-radius: 10px;
@@ -256,11 +255,11 @@ a {
   display: flex;
   flex-direction: column;
   padding: 20px;
+  transition: transform 0.3s ease;
 }
 
 .blog-card-container .blog-card:hover {
   transform: translateY(-5px);
-  transition: 0.3s ease;
 }
 
 .blog-card-container .blog-card .blog-image {
@@ -279,7 +278,7 @@ a {
   font-size: 16px;
   font-weight: 500;
   line-height: 1.5em;
-  margin: 10px 0px;
+  margin: 10px 0;
   display: block;
 }
 
@@ -311,7 +310,7 @@ a {
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5em;
-  margin: 10px 0px;
+  margin: 10px 0;
 }
 
 .blog-card-container .blogBtn {
@@ -323,8 +322,8 @@ a {
   border: 1px solid #0f411e;
   border-radius: 25px;
   padding: 10px 30px;
-  text-decoration: none;
   display: inline-block;
+  text-decoration: none;
 }
 
 .blog-card-container .blogBtn:hover {
@@ -377,11 +376,85 @@ a {
   border: 1px solid #0f411e;
   border-radius: 25px;
   padding: 10px 30px;
-  text-decoration: none;
   display: inline-block;
+  text-decoration: none;
 }
 
 .contact-container .contact-form .subBtn:hover {
   background-color: #0f411e;
   color: #fffdf6;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 1200px) {
+  .header-container,
+  .footer-container,
+  .banner-container,
+  .about-container,
+  .mission-container .mission,
+  .mission-container .values,
+  .blog-container,
+  .contact-container .contact-details,
+  .contact-container .contact-form {
+    padding: 40px !important;
+  }
+
+  .banner-container .banner-column h1 {
+    font-size: 48px;
+  }
+
+  .about-container h2,
+  .contact-container .contact-details h2,
+  .blog-container h2 {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-container,
+  .footer-container,
+  .banner-container,
+  .about-container,
+  .mission-container .mission,
+  .mission-container .values,
+  .blog-container,
+  .contact-container .contact-details,
+  .contact-container .contact-form {
+    padding: 20px !important;
+  }
+
+  .banner-container .banner-column h1 {
+    font-size: 36px;
+  }
+
+  .about-container h2,
+  .contact-container .contact-details h2,
+  .blog-container h2 {
+    font-size: 32px;
+  }
+
+  .header-container .menu a {
+    font-size: 16px;
+    padding: 0 5px !important;
+  }
+
+  .footer-container .logo {
+    font-size: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-container .banner-column h1 {
+    font-size: 28px;
+  }
+
+  .about-container h2,
+  .contact-container .contact-details h2,
+  .blog-container h2 {
+    font-size: 24px;
+  }
+
+  .footer-container .logo {
+    font-size: 36px;
+  }
 }

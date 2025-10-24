@@ -86,7 +86,7 @@ function Home() {
         </Container>
       </section>
 
-      <section>
+      <section id="blog">
         <Container className="blog-container mb-4 mx-auto">
           <Row>
             <Col xl={6} lg={6} md={6} sm={12} xs={12}>
