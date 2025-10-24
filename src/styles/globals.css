@@ -246,17 +246,90 @@ a {
   margin: 0;
 }
 
-.blog-card:hover {
+/*Blog Card Styles*/
+.blog-card-container .blog-card {
+  background-color: #eaf1d8;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.blog-card-container .blog-card:hover {
   transform: translateY(-5px);
   transition: 0.3s ease;
 }
 
-.blog-image {
+.blog-card-container .blog-card .blog-image {
   transition: transform 0.4s ease;
+  overflow: hidden;
+  border-radius: 10px;
 }
 
-.blog-card:hover .blog-image {
+.blog-card-container .blog-card:hover .blog-image {
   transform: scale(1.05);
+}
+
+.blog-card-container .blog-card .blog-content .category {
+  color: #0f411e;
+  font-family: "Azeret Mono", monospace;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5em;
+  margin: 10px 0px;
+  display: block;
+}
+
+.blog-card-container .blog-card .blog-content .title a {
+  color: #0f411e;
+  font-family: "Fraunces", serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.2em;
+}
+
+.blog-card-container .blog-card .blog-content .author {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.blog-card-container .blog-card .blog-content .author span {
+  color: #0f411e;
+  font-family: "Azeret Mono", monospace;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5em;
+}
+
+.blog-card-container .blog-card .blog-content p {
+  color: #0f411e;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5em;
+  margin: 10px 0px;
+}
+
+.blog-card-container .blogBtn {
+  background-color: #0f411e;
+  color: #fffdf6;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2em;
+  border: 1px solid #0f411e;
+  border-radius: 25px;
+  padding: 10px 30px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.blog-card-container .blogBtn:hover {
+  background-color: #fffba1;
+  color: #0f411e;
 }
 
 /* Contact Styles */

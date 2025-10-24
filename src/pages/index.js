@@ -22,7 +22,7 @@ function Home() {
                   buds. Elevate your wellness journey with flavors that are as
                   good for you as they are satisfying.
                 </p>
-                <Link href="/blog" title="Our Blog" className="btn btn-primary">
+                <Link href="/blog" title="Our Blog">
                   Our Blog
                 </Link>
               </div>
